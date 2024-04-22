@@ -15,6 +15,7 @@
 		B60F0A772BD62E4B00EB7EEB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B60F0A752BD62E4B00EB7EEB /* LaunchScreen.storyboard */; };
 		B64BF6302BD62FF800FC4A31 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = B64BF62F2BD62FF800FC4A31 /* SnapKit */; };
 		B64BF6322BD62FF800FC4A31 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = B64BF6312BD62FF800FC4A31 /* SnapKit-Dynamic */; };
+		B64BF6342BD6304B00FC4A31 /* GridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64BF6332BD6304B00FC4A31 /* GridViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		B60F0A732BD62E4B00EB7EEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B60F0A762BD62E4B00EB7EEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B60F0A782BD62E4B00EB7EEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B64BF6332BD6304B00FC4A31 /* GridViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				B60F0A6A2BD62E4A00EB7EEB /* AppDelegate.swift */,
 				B60F0A6C2BD62E4A00EB7EEB /* SceneDelegate.swift */,
 				B60F0A6E2BD62E4A00EB7EEB /* ViewController.swift */,
+				B64BF6332BD6304B00FC4A31 /* GridViewController.swift */,
 				B60F0A702BD62E4A00EB7EEB /* Main.storyboard */,
 				B60F0A732BD62E4B00EB7EEB /* Assets.xcassets */,
 				B60F0A752BD62E4B00EB7EEB /* LaunchScreen.storyboard */,
@@ -149,6 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B64BF6342BD6304B00FC4A31 /* GridViewController.swift in Sources */,
 				B60F0A6F2BD62E4A00EB7EEB /* ViewController.swift in Sources */,
 				B60F0A6B2BD62E4A00EB7EEB /* AppDelegate.swift in Sources */,
 				B60F0A6D2BD62E4A00EB7EEB /* SceneDelegate.swift in Sources */,

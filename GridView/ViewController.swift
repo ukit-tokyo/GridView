@@ -14,6 +14,15 @@ class ViewController: UIViewController {
     // Do any additional setup after loading the view.
   }
 
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+
+    let vc = GridViewController()
+    let nv = UINavigationController(rootViewController: vc)
+    nv.modalPresentationStyle = .fullScreen
+    present(nv, animated: true)
+  }
+
 
 }
 
