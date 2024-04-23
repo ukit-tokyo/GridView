@@ -8,51 +8,6 @@
 import UIKit
 import SnapKit
 
-final class GridViewController: UIViewController, GridViewDataSource, GridViewDelegate {
-
-  private lazy var gridView = GridView(layout: .init(inset: .init(top: 8, left: 8, bottom: 8, right: 8)))
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
-
-    title = "GridView"
-    view.backgroundColor = .white
-
-    navigationItem.rightBarButtonItem = UIBarButtonItem(
-      systemItem: .refresh,
-      primaryAction: UIAction { [weak self] _ in
-        self?.gridView.reloadData()
-      })
-
-    view.addSubview(gridView)
-    gridView.snp.makeConstraints { make in
-      make.top.equalTo(view.safeAreaLayoutGuide).inset(24)
-      make.left.right.equalToSuperview().inset(16)
-    }
-
-    gridView.dataSource = self
-    gridView.delegate = self
-
-    gridView.reloadData()
-  }
-
-  func gridViewNumberOfColumns(_ gridView: GridView) -> Int {
-    3
-  }
-
-  func gridViewNumberOfItems(_ gridView: GridView) -> Int {
-    10
-  }
-
-  func gridView(_ gridView: GridView, viewForItemAt index: Int) -> UIView {
-    Card()
-  }
-
-  func gridView(_ gridView: GridView, didSelectItemAt indexPath: Int) {
-    print("testing___", indexPath)
-  }
-}
-
 // MARK: -
 
 protocol GridViewDataSource: NSObject {
@@ -151,7 +106,18 @@ class GridView: UIView {
         }
       }
 
+      let gesture = TapGestureRecognizer(target: self, action: #selector(tapped(_:)))
+      gesture.index = index
+      view.addGestureRecognizer(gesture)
+
       prevView = view
+    }
+  }
+
+  @objc
+  func tapped(_ sender: TapGestureRecognizer) {
+    if let index = sender.index {
+      delegate?.gridView(self, didSelectItemAt: index)
     }
   }
 
@@ -164,6 +130,10 @@ class GridView: UIView {
 }
 
 // MARK: -
+
+class TapGestureRecognizer:UITapGestureRecognizer {
+  var index: Int?
+}
 
 final class Card: UIView {
 
@@ -199,8 +169,55 @@ final class Card: UIView {
       make.width.equalTo(imageView.snp.height)
     }
   }
-  
+
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+}
+
+// MARK: -
+
+final class GridViewController: UIViewController, GridViewDataSource, GridViewDelegate {
+
+  private lazy var gridView = GridView(layout: .init(inset: .init(top: 8, left: 8, bottom: 8, right: 8)))
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    title = "GridView"
+    view.backgroundColor = .white
+
+    navigationItem.rightBarButtonItem = UIBarButtonItem(
+      systemItem: .refresh,
+      primaryAction: UIAction { [weak self] _ in
+        self?.gridView.reloadData()
+      })
+
+    view.addSubview(gridView)
+    gridView.snp.makeConstraints { make in
+      make.top.equalTo(view.safeAreaLayoutGuide).inset(24)
+      make.left.right.equalToSuperview().inset(16)
+    }
+
+    gridView.dataSource = self
+    gridView.delegate = self
+
+    gridView.reloadData()
+  }
+
+  func gridViewNumberOfColumns(_ gridView: GridView) -> Int {
+    3
+  }
+
+  func gridViewNumberOfItems(_ gridView: GridView) -> Int {
+    10
+  }
+
+  func gridView(_ gridView: GridView, viewForItemAt index: Int) -> UIView {
+    Card()
+  }
+
+  func gridView(_ gridView: GridView, didSelectItemAt indexPath: Int) {
+    print("testing___", indexPath)
   }
 }
