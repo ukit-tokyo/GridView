@@ -8,8 +8,9 @@
 import UIKit
 import SnapKit
 
-final class GridViewController: UIViewController, GridViewDataSource {
-  private lazy var gridView = GridView(layout: .init(inset: .init(top: 8, left: 8, bottom: 8, right: 8), horizontalSpacing: 8, verticalSpacing: 8))
+final class GridViewController: UIViewController, GridViewDataSource, GridViewDelegate {
+
+  private lazy var gridView = GridView(layout: .init(inset: .init(top: 8, left: 8, bottom: 8, right: 8)))
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -30,6 +31,7 @@ final class GridViewController: UIViewController, GridViewDataSource {
     }
 
     gridView.dataSource = self
+    gridView.delegate = self
 
     gridView.reloadData()
   }
@@ -39,24 +41,42 @@ final class GridViewController: UIViewController, GridViewDataSource {
   }
 
   func gridViewNumberOfItems(_ gridView: GridView) -> Int {
-    14
+    10
   }
 
   func gridView(_ gridView: GridView, viewForItemAt index: Int) -> UIView {
     Card()
   }
+
+  func gridView(_ gridView: GridView, didSelectItemAt indexPath: Int) {
+    print("testing___", indexPath)
+  }
 }
 
 // MARK: -
 
-protocol GridViewItemComponent where Self: UIView {}
+protocol GridViewDataSource: NSObject {
+  func gridViewNumberOfColumns(_ gridView: GridView) -> Int
+  func gridViewNumberOfItems(_ gridView: GridView) -> Int
+  func gridView(_ gridView: GridView, viewForItemAt index: Int) -> UIView
+}
+
+protocol GridViewDelegate: NSObject {
+  func gridView(_ gridView: GridView, didSelectItemAt indexPath: Int)
+}
 
 class GridView: UIView {
 
   struct Layout {
-    var inset: UIEdgeInsets = .zero
-    var horizontalSpacing = 0
-    var verticalSpacing = 0
+    let inset: UIEdgeInsets
+    let horizontalSpacing: CGFloat
+    let verticalSpacing: CGFloat
+
+    init(inset: UIEdgeInsets = .zero, horizontalSpacing: CGFloat = 8, verticalSpacing: CGFloat = 8) {
+      self.inset = inset
+      self.horizontalSpacing = horizontalSpacing
+      self.verticalSpacing = verticalSpacing
+    }
   }
 
   weak var dataSource: GridViewDataSource?
@@ -100,7 +120,12 @@ class GridView: UIView {
 
       view.snp.makeConstraints { make in
         guard let prevView else {
-          make.top.left.equalToSuperview(); return
+          make.top.left.equalToSuperview()
+          make.width.equalToSuperview()
+            .multipliedBy(1 / CGFloat(columnCount))
+            .offset(-1 * (layout.horizontalSpacing / 2))
+            .priority(.high)
+          return
         }
 
         make.size.equalTo(prevView)
@@ -138,18 +163,10 @@ class GridView: UIView {
   }
 }
 
-protocol GridViewDataSource: NSObject {
-  func gridViewNumberOfColumns(_ gridView: GridView) -> Int
-  func gridViewNumberOfItems(_ gridView: GridView) -> Int
-  func gridView(_ gridView: GridView, viewForItemAt index: Int) -> UIView
-}
-protocol GridViewDelegate: NSObject {
-  func gridView(_ gridView: GridView, didSelectItemAt indexPath: Int)
-}
-
 // MARK: -
 
-final class Card: UIView, GridViewItemComponent {
+final class Card: UIView {
+
   override init(frame: CGRect) {
     super.init(frame: frame)
 
